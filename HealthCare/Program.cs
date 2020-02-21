@@ -18,6 +18,7 @@ namespace HealthCare
 
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration(cfg => cfg.AddJsonFile("appsettings.Secret.json"))
                 .UseStartup<Startup>();
     }
 }
