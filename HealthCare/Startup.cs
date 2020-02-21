@@ -1,6 +1,8 @@
+using HealthCare.Data;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -18,7 +20,13 @@ namespace HealthCare
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers();
+
+            // Db config
+            string connection = Configuration.GetConnectionString("PostgreConnection");
+            services.AddEntityFrameworkNpgsql()
+                    .AddDbContext<HealthCareContext>(options =>
+                        options.UseNpgsql(connection));
 
             // In production, the Angular files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
