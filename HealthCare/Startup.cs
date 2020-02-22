@@ -1,4 +1,5 @@
 using HealthCare.Data;
+using HealthCare.Models.Options;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -21,6 +22,8 @@ namespace HealthCare
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.Configure<BotOptions>(Configuration.GetSection(nameof(BotOptions)));
 
             // Db config
             string connection = Configuration.GetConnectionString("PostgreConnection");

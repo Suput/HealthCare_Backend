@@ -1,4 +1,5 @@
-﻿using HealthCare.Models.Identity;
+﻿using HealthCare.Models;
+using HealthCare.Models.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,6 +11,8 @@ namespace HealthCare.Data
 {
     public class HealthCareContext : IdentityDbContext<User, Role, int>
     {
+        DbSet<TelegramUser> TelegramUsers;
+
         public HealthCareContext(DbContextOptions<HealthCareContext> options)
             : base (options) { }
 
@@ -18,6 +21,15 @@ namespace HealthCare.Data
             base.OnModelCreating(builder);
 
             // My configure functions here:
+            ConfigureTU(builder);
+        }
+
+        private void ConfigureTU(ModelBuilder builder)
+        {
+            builder.Entity<TelegramUser>(opt =>
+            {
+                opt.HasKey(tu => tu.Id);
+            });
         }
     }
 }
