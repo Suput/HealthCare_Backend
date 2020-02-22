@@ -1,3 +1,4 @@
+using AutoMapper;
 using HealthCare.Data;
 using HealthCare.Models.Options;
 using Microsoft.AspNetCore.Builder;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using System;
 
 namespace HealthCare
 {
@@ -24,6 +26,9 @@ namespace HealthCare
             services.AddControllers();
 
             services.Configure<BotOptions>(Configuration.GetSection(nameof(BotOptions)));
+
+            // Automapper
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             // Db config
             string connection = Configuration.GetConnectionString("PostgreConnection");

@@ -1,18 +1,20 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 
-namespace HealthCare.Models
+namespace HealthCare.Models.Requests
 {
-    public class TelegramUser
+    public class TelegramUserAdd
     {
-        public int Id { get; set; }
-
-        // telegram user id
+        [Required]
         public int UserId { get; set; }
+        [Required]
         public int Sys { get; set; }
+        [Required]
         public int Dia { get; set; }
+        [Required]
         public int Pulse { get; set; }
 
-        // when message was received
+        [Required]
         public DateTime DateTime { get; set; }
     }
 }

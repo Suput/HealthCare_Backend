@@ -3,15 +3,17 @@ using System;
 using HealthCare.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthCareContext))]
-    partial class HealthCareContextModelSnapshot : ModelSnapshot
+    [Migration("20200222155205_telegram_user_table")]
+    partial class telegram_user_table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -130,9 +132,6 @@ namespace HealthCare.Migrations
                         .HasColumnType("integer");
 
                     b.Property<int>("Sys")
-                        .HasColumnType("integer");
-
-                    b.Property<int>("UserId")
                         .HasColumnType("integer");
 
                     b.HasKey("Id");

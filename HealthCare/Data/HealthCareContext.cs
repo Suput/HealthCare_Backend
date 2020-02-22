@@ -11,10 +11,10 @@ namespace HealthCare.Data
 {
     public class HealthCareContext : IdentityDbContext<User, Role, int>
     {
-        DbSet<TelegramUser> TelegramUsers;
+        public DbSet<TelegramUser> TelegramUsers { get; set; }
 
         public HealthCareContext(DbContextOptions<HealthCareContext> options)
-            : base (options) { }
+            : base(options) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
