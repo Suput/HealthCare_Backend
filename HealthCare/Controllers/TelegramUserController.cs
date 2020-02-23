@@ -33,7 +33,7 @@ namespace HealthCare.Controllers
             context.TelegramUsers.Add(newUser);
             await context.SaveChangesAsync();
 
-            logger.LogInformation($"{newUser.Id} --- row\nUser --- {newUser.UserId}\nSys - {newUser.Sys} | Dia - {newUser.Dia}\nWas added");
+            logger.LogInformation($"{newUser.Id} --- row\n\tUser --- {newUser.UserId}\n\tSys - {newUser.Sys} | Dia - {newUser.Dia}\n\tWas added");
             return Ok();
         }
     }
