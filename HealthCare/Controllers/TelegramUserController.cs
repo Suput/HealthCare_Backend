@@ -33,7 +33,7 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddInformation([FromForm] TelegramUserAdd telegramUser)
+        public async Task<IActionResult> AddInformation([FromBody] TelegramUserAdd telegramUser)
         {
             if (!GetTokenHash(options.Token).Equals(telegramUser.Token))
                 return BadRequest("Invalid bot token");
