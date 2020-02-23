@@ -16,5 +16,8 @@ namespace HealthCare.Models.Requests
 
         [Required]
         public DateTime DateTime { get; set; }
+
+        [Required]
+        public string Token { get; set; }
     }
 }
