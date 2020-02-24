@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Collections.Generic;
 
 namespace HealthCare.Models
 {
@@ -8,11 +8,6 @@ namespace HealthCare.Models
 
         // telegram user id
         public int UserId { get; set; }
-        public int Sys { get; set; }
-        public int Dia { get; set; }
-        public int Pulse { get; set; }
-
-        // when message was received
-        public DateTime DateTime { get; set; }
+        public List<HealthRecord> HealthRecords { get; set; }
     }
 }
