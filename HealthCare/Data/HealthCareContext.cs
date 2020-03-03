@@ -8,7 +8,7 @@ namespace HealthCare.Data
     public class HealthCareContext : IdentityDbContext<User, Role, int>
     {
         public DbSet<TelegramUser> TelegramUsers { get; set; }
-
+        public DbSet<HealthRecord> HealthRecords { get; set; }
         public HealthCareContext(DbContextOptions<HealthCareContext> options)
             : base(options) { }
 

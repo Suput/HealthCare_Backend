@@ -10,7 +10,8 @@ namespace HealthCare.AutoMapperProfiles
     {
         public TelegramUserProfile()
         {
-            CreateMap<TelegramUserAdd, TelegramUser>();
+            CreateMap<HealthRecordCreate, HealthRecord>();
+
             CreateMap<TelegramUser, TelegramUserResponse>()
                 .ForMember(tur => tur.Syss, map => map.MapFrom(tu => tu.HealthRecords.Select(
                     hr => hr.Sys)))

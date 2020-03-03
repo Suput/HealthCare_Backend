@@ -11,8 +11,6 @@ using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using System.Security.Cryptography;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace HealthCare.Controllers
@@ -35,23 +33,30 @@ namespace HealthCare.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> AddInformation([FromBody] TelegramUserAdd telegramUser)
+        public async Task<IActionResult> AddInformation([FromBody] HealthRecordCreate healthRecordcreate)
         {
-            if (!GetToken(BotToken).Equals(telegramUser.Token))
+            if (!BotToken.Equals(healthRecordcreate.Token))
                 return BadRequest("Invalid bot token");
 
-            var newUser = mapper.Map<TelegramUser>(telegramUser);
-            context.TelegramUsers.Add(newUser);
+            TelegramUser user = await context.TelegramUsers
+                .FirstOrDefaultAsync(tu => tu.UserId == healthRecordcreate.TelegramUserId);
+            if (user == null)
+                return NotFound("Can't find user");
+
+            var newRecord = mapper.Map<HealthRecord>(healthRecordcreate);
+            newRecord.TelegramUserId = user.Id;
+
+            context.HealthRecords.Add(newRecord);
             await context.SaveChangesAsync();
 
-            //logger.LogInformation($"{newUser.Id} --- row\n\tUser --- {newUser.UserId}\n\tSys - {newUser.Sys} | Dia - {newUser.Dia}\n\tWas added");
+            logger.LogInformation($"{newRecord.Id}: {newRecord.TelegramUserId} --- row\n\tUser --- {newRecord.TelegramUserId}\n\tSys - {newRecord.Sys} | Dia - {newRecord.Dia}\n\tWas added");
             return Ok();
         }
 
         [HttpGet("{userId:int}/{token}")]
         public async Task<ActionResult<TelegramUserResponse>> GetInformation(int userId, string token)
         {
-            if (!GetToken(BotToken).Equals(token))
+            if (!BotToken.Equals(token))
                 return BadRequest("Invalid bot token");
 
             TelegramUser user = await context.TelegramUsers
@@ -63,18 +68,6 @@ namespace HealthCare.Controllers
                 .Where(tu => tu.Id == user.Id)
                 .ProjectTo<TelegramUserResponse>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
-        }
-
-        private string GetToken(string token)
-        {
-            StringBuilder sb = new StringBuilder();
-            using (var hash = SHA256.Create())
-            {
-                Byte[] hash_bytes = hash.ComputeHash(Encoding.UTF8.GetBytes(token));
-                foreach (Byte b in hash_bytes)
-                    sb.Append(b.ToString("x2"));
-            }
-            return sb.ToString();
         }
     }
 }
