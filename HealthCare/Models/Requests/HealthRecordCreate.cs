@@ -3,10 +3,10 @@ using System.ComponentModel.DataAnnotations;
 
 namespace HealthCare.Models.Requests
 {
-    public class TelegramUserAdd
+    public class HealthRecordCreate
     {
         [Required]
-        public int UserId { get; set; }
+        public int TelegramUserId { get; set; }
         [Required]
         public int Sys { get; set; }
         [Required]
@@ -16,5 +16,8 @@ namespace HealthCare.Models.Requests
 
         [Required]
         public DateTime DateTime { get; set; }
+
+        [Required]
+        public string Token { get; set; }
     }
 }

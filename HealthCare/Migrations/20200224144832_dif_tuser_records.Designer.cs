@@ -3,15 +3,17 @@ using System;
 using HealthCare.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 namespace HealthCare.Migrations
 {
     [DbContext(typeof(HealthCareContext))]
-    partial class HealthCareContextModelSnapshot : ModelSnapshot
+    [Migration("20200224144832_dif_tuser_records")]
+    partial class dif_tuser_records
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -45,7 +47,7 @@ namespace HealthCare.Migrations
 
                     b.HasIndex("TelegramUserId");
 
-                    b.ToTable("HealthRecords");
+                    b.ToTable("HealthRecord");
                 });
 
             modelBuilder.Entity("HealthCare.Models.Identity.Role", b =>
