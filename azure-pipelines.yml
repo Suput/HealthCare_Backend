@@ -6,21 +6,12 @@ name: $(BuildID)
 pool:
   vmImage: 'ubuntu-latest'
 
+variables:
+  buildConfiguration: 'Release'
+
 steps:
-- task: DotNetCoreCLI@2
-  displayName: 'dotnet restore'
-  inputs:
-    command: 'restore'
-    feedsToUse: 'select'
-    versioningScheme: 'off'
-- task: DotNetCoreCLI@2
-  inputs:
-    command: 'publish'
-    publishWebProjects: false
-    projects: HealthCare/HealthCare.csproj
-    arguments: '--no-restore -o $(Build.ArtifactStagingDirectory)' 
-    zipAfterPublish: false
-    modifyOutputPath: false
+- script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
+  displayName: 'dotnet publish $(buildConfiguration)'
 - task: PublishBuildArtifacts@1
   displayName: 'Publish Artifact: HealthCare_Backend-build'
   inputs:
