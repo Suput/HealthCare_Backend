@@ -54,12 +54,6 @@ namespace HealthCare
                 app.UseExceptionHandler("/Error");
             }
 
-            app.UseStaticFiles();
-            if (!env.IsDevelopment())
-            {
-                app.UseSpaStaticFiles();
-            }
-
             app.UseRouting();
 
             app.UseEndpoints(endpoints =>
@@ -68,6 +62,12 @@ namespace HealthCare
                     name: "default",
                     pattern: "{controller}/{action=Index}/{id?}");
             });
+
+            app.UseStaticFiles();
+            if (!env.IsDevelopment())
+            {
+                app.UseSpaStaticFiles();
+            }
 
             app.UseSpa(spa =>
             {
