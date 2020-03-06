@@ -1,0 +1,29 @@
+trigger:
+- master
+- develop
+
+name: $(BuildID)
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  buildConfiguration: 'Release'
+
+steps:
+- script: dotnet publish --configuration $(buildConfiguration) -o $(Build.ArtifactStagingDirectory)
+  displayName: 'dotnet publish $(buildConfiguration)'
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: HealthCare_Backend-build'
+  inputs:
+    ArtifactName: 'HealthCare_Backend-build'
+- task: CopyFiles@2
+  displayName: 'Copy deploy artifact'
+  inputs:
+    SourceFolder: 'Deploy'
+    Contents: '**'
+    TargetFolder: '$(Build.ArtifactStagingDirectory)'
+    CleanTargetFolder: true
+- task: PublishBuildArtifacts@1
+  displayName: 'Publish Artifact: HealthCare_Backend-deploy'
+  inputs:
+    ArtifactName: 'HealthCare_Backend-deploy'
