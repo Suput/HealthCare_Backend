@@ -1,6 +1,7 @@
 using AutoMapper;
 using HealthCare.Data;
 using HealthCare.Models.Options;
+using HealthCare.Services.Configure;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.SpaServices.AngularCli;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System;
+using WebApp.Configure.Models;
 
 namespace HealthCare
 {
@@ -29,6 +31,10 @@ namespace HealthCare
 
             // Automapper
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+
+            // Web app services
+            services.AddWebAppConfigure()
+                .AddTransientConfigure<ApplyMigrations>(Configuration.GetValue<bool>("MIGRATE"));
 
             // Db config
             string connection = Configuration.GetConnectionString("PostgreConnection");
