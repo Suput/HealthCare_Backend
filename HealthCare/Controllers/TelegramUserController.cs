@@ -41,7 +41,15 @@ namespace HealthCare.Controllers
             TelegramUser user = await context.TelegramUsers
                 .FirstOrDefaultAsync(tu => tu.UserId == healthRecordcreate.TelegramUserId);
             if (user == null)
-                return NotFound("Can't find user");
+            {
+                user = new TelegramUser
+                {
+                    UserId = healthRecordcreate.TelegramUserId
+                };
+                context.TelegramUsers.Add(user);
+                await context.SaveChangesAsync();
+                //return NotFound("Can't find user");
+            }
 
             var newRecord = mapper.Map<HealthRecord>(healthRecordcreate);
             newRecord.TelegramUserId = user.Id;
