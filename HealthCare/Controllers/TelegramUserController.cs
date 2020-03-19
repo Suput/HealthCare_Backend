@@ -48,7 +48,6 @@ namespace HealthCare.Controllers
                 };
                 context.TelegramUsers.Add(user);
                 await context.SaveChangesAsync();
-                //return NotFound("Can't find user");
             }
 
             var newRecord = mapper.Map<HealthRecord>(healthRecordcreate);
@@ -72,10 +71,15 @@ namespace HealthCare.Controllers
             if (user == null)
                 return NotFound("Can't find user");
 
-            return await context.TelegramUsers
+            var data = await context.TelegramUsers
                 .Where(tu => tu.Id == user.Id)
                 .ProjectTo<TelegramUserResponse>(mapper.ConfigurationProvider)
                 .FirstOrDefaultAsync();
+
+            data.Syss = data.Syss.Skip(Math.Max(0, data.Syss.Count - 10)).ToList();
+            data.Dias = data.Dias.Skip(Math.Max(0, data.Dias.Count - 10)).ToList();
+            data.Pulses = data.Pulses.Skip(Math.Max(0, data.Pulses.Count - 10)).ToList();
+            return data;
         }
     }
 }
